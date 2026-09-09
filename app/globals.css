@@ -1,26 +1,494 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ==========================================================================
+   dfend.swiss — systeme de design
+   Direction : le vert comme sol. DESIGN.md fait foi.
+   Les variables shadcn sont remappees sur les jetons de marque plus bas :
+   un composant installe depuis 21st.dev herite du vert, du noir et du
+   rayon zero sans qu'on le retouche.
+   ========================================================================== */
+
+/* --- polices, servies depuis le domaine ---------------------------------- */
+/* Pas de CDN : un courtier suisse n'envoie pas l'IP de ses visiteurs a un
+   tiers. Le decoupage par unicode-range evite de charger l'extension latine
+   sur une page qui n'en a pas besoin. */
+
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url(/font/archivo-latin.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url(/font/archivo-latin-ext.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url(/font/newsreader-latin.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url(/font/newsreader-latin-ext.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* --- jetons -------------------------------------------------------------- */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* les trois sols, plus les deux encres. Rien entre les deux.
+     Le vert est #c6d75b, la valeur du groupe DFEND telle qu'elle est
+     documentee dans l'INDEX.md des medias Insurance Brokers (arbitrage client
+     du 2026-09-07). Il remplace le #C7D65D releve au pixel sur le verrou de
+     logo : un point d'ecart par canal, invisible, mais les trois sites du
+     groupe parlent enfin la meme valeur. */
+  /* **Le seul jeton de couleur ecrit en hexadecimal, et c'est deliberé.**
+     Tailwind v4 reecrit une valeur `oklch()` de `@theme` en `lab()` a la
+     compilation, avec quatre decimales : `oklch(84.2% 0.149 116.3)` sortait
+     en 198, 215, 92 et `oklch(84.06% 0.149 116.2)` en 198, 214, 91. Deux
+     ecritures, deux couleurs, aucune n'etant #C6D75B. La precision se perd
+     apres nous, donc la regler en amont ne sert a rien.
+     Un point sur un canal ne se voit pas. Mais toute la raison d'etre de
+     l'arbitrage du 2026-09-07 est que les trois sites du groupe servent la
+     meme valeur, et un designer qui pipette la page doit y relever la valeur
+     de la charte, pas une voisine. En hexadecimal, elle tombe juste et rien
+     ne la reecrit.
+     Les autres jetons restent en OKLCH : aucun d'eux n'a de valeur de charte
+     a respecter au pixel. */
+  --color-lime: #c6d75b;
+  --color-ink: oklch(0% 0 0);
+  --color-night: oklch(14.5% 0 90);
+  --color-paper: oklch(96.6% 0.007 106.5);
+  --color-chalk: oklch(100% 0 90);
+  /* reserve a Fortiva Pro, jamais melange au vert de marque */
+  --color-fortiva: oklch(93.6% 0.209 113);
+
+  /* encres derivees, toujours mesurees contre leur sol */
+  --color-ink-soft: oklch(0% 0 0 / 0.68);
+  --color-chalk-soft: oklch(100% 0 90 / 0.72);
+  --color-rule-ink: oklch(0% 0 0 / 0.22);
+  --color-rule-chalk: oklch(100% 0 90 / 0.26);
+
+  --font-sans: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+
+  /* L'echelle est bornee par le contenu aux deux bouts.
+     En bas : --text-4xl descend a 44px parce que le mot « architecture. »
+     debordait a 375px.
+     En haut : elle plafonne a 88px et non 104 parce qu'a 1280x720 et
+     1440x768, deux formats d'ordinateur portable courants, le titre poussait
+     « enter & apply » sous la ligne de flottaison. Le premier ecran doit
+     porter l'appel a l'action. */
+  --text-2xs: 12px;
+  --text-xs: clamp(14px, 0.3vw + 13px, 15px);
+  --text-sm: clamp(17px, 0.3vw + 16px, 18px);
+  --text-base: clamp(17px, 0.3vw + 16px, 18px);
+  --text-lg: clamp(20px, 0.7vw + 18px, 22px);
+  --text-xl: clamp(26px, 1.6vw + 20px, 30px);
+  --text-2xl: clamp(32px, 3.2vw + 20px, 44px);
+  --text-3xl: clamp(42px, 6vw + 18px, 68px);
+  --text-4xl: clamp(44px, 7.4vw + 12px, 88px);
+
+  /* Le titre de section, a la demande du client : « on and off the field »,
+     « how it works » et les autres etaient trop discrets face au heros.
+     C'est un cran a lui, et non `--text-2xl` releve, parce que deux endroits
+     emploient encore l'ancienne valeur pour autre chose qu'un titre — la
+     citation des temoignages et le nom de phase du rail de methode. Les
+     grossir avec les titres aurait fait trois tailles maximales sur la meme
+     page.
+     Le plancher tient a 38px : « mitigation » a 375 px de large, dans un
+     Archivo en 112 de chasse et 800 de graisse, mesure 210 px pour 335 px
+     disponibles. La passe 2 le verifie. */
+  --text-head: clamp(38px, 3.4vw + 25px, 60px);
+
+  /* rythme vertical sur 8 */
+  --spacing-s1: 8px;
+  --spacing-s2: 16px;
+  --spacing-s3: 24px;
+  --spacing-s4: 40px;
+  --spacing-s5: 64px;
+  --spacing-s6: 104px;
+  --spacing-s7: 168px;
+
+  --radius: 0px;
+
+  /* Le defilement du carrousel d'avis. La duree arrive en variable posee par
+     le composant, pour qu'ajouter un avis ralentisse la bande au lieu de
+     l'accelerer. La piste est dupliquee, donc un tour vaut la largeur d'une
+     piste plus la gouttiere qui la suit. */
+  --animate-marquee: marquee var(--duration, 36s) linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - var(--gap))); }
+  }
+
+  /* Le trace d'un contour au montage. Le combine du bouton WhatsApp s'en sert.
+     L'etat d'arrivee est l'etat de base — un `stroke-dashoffset` de zero, donc
+     l'icone entiere — et l'animation part du bout du chemin pour y revenir.
+     Ecrite en CSS et non en SMIL : `prefers-reduced-motion` neutralise les
+     animations CSS plus bas, et un `<animate>` SVG lui aurait echappe. */
+  --animate-draw-stroke: draw-stroke 600ms ease-out 1;
+  @keyframes draw-stroke {
+    from { stroke-dashoffset: 62; }
+    to { stroke-dashoffset: 0; }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Les couleurs semantiques de shadcn, exposees en utilitaires Tailwind
+   (`bg-background`, `border-border`, `text-muted-foreground`...). En
+   `inline`, elles se resolvent a l'endroit ou on les emploie : un composant
+   pose dans `.on-night` ou `.on-lime` change de sol sans etre reecrit. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Un seul rayon de coin : zero. Les blocs sont des blocs, et tout
+     composant tire de 21st.dev arrive plat par construction. */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+}
+
+:root {
+  /* l'entaille du n, mesuree sur l'original : 41 degres de l'horizontale.
+     C'est le seul angle du site. */
+  --cut: 41deg;
+  --cut-x: 22px;
+  --cut-y: 19.1px;
+
+  --edge: clamp(20px, 5vw, 72px);
+  --wrap: 1280px;
+  --measure: 62ch;
+
+  /* --- remappage shadcn ---------------------------------------------------
+     Tout composant tire de 21st.dev lit ces variables. En les branchant sur
+     les jetons de marque, il arrive habille en dfend, pas en shadcn. */
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+  --card: var(--color-paper);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-paper);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-ink);
+  --primary-foreground: var(--color-lime);
+  --secondary: var(--color-lime);
+  --secondary-foreground: var(--color-ink);
+  --muted: oklch(93% 0.005 106.5);
+  --muted-foreground: var(--color-ink-soft);
+  --accent: var(--color-lime);
+  --accent-foreground: var(--color-ink);
+  --destructive: oklch(52% 0.19 27);
+  --border: var(--color-rule-ink);
+  --input: var(--color-rule-ink);
+  --ring: var(--color-lime);
+  --radius: 0px;
+}
+
+/* Les sols sombres exposent les memes variables inversees : un composant
+   pose sur .on-night se retourne sans etre reecrit. */
+.on-night,
+.dark {
+  --background: var(--color-night);
+  --foreground: var(--color-chalk);
+  --card: var(--color-night);
+  --card-foreground: var(--color-chalk);
+  --popover: var(--color-night);
+  --popover-foreground: var(--color-chalk);
+  --primary: var(--color-lime);
+  --primary-foreground: var(--color-ink);
+  --secondary: oklch(22% 0 90);
+  --secondary-foreground: var(--color-chalk);
+  --muted: oklch(22% 0 90);
+  --muted-foreground: var(--color-chalk-soft);
+  --accent: var(--color-lime);
+  --accent-foreground: var(--color-ink);
+  --border: var(--color-rule-chalk);
+  --input: var(--color-rule-chalk);
+  --ring: var(--color-lime);
+}
+
+/* Sur le vert, l'encre est toujours noire. Blanc sur vert vaut 1.59:1,
+   c'est interdit et aucune variable ne doit pouvoir l'introduire. */
+.on-lime {
+  --background: var(--color-lime);
+  --foreground: var(--color-ink);
+  --card: var(--color-lime);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-lime);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-ink);
+  --primary-foreground: var(--color-lime);
+  --secondary: var(--color-ink);
+  --secondary-foreground: var(--color-lime);
+  --muted: oklch(80% 0.13 115.5);
+  --muted-foreground: var(--color-ink-soft);
+  --accent: var(--color-ink);
+  --accent-foreground: var(--color-lime);
+  --border: var(--color-rule-ink);
+  --input: var(--color-rule-ink);
+  --ring: var(--color-ink);
+}
+
+/* --- base ---------------------------------------------------------------- */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    line-height: 1.65;
+    font-variation-settings: "opsz" 16;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Bas de casse comme le mot-symbole. C'est le pari de la direction. */
+  h1, h2, h3 {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 112, "wght" 800;
+    letter-spacing: -0.03em;
+    line-height: 0.94;
+    text-transform: lowercase;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h1 { font-size: var(--text-3xl); }
+  h2 { font-size: var(--text-head); }
+  h3 { font-size: var(--text-lg); line-height: 1.1; }
+
+  p { max-width: var(--measure); }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-lime);
+  }
+}
+
+/* --- composants signature ------------------------------------------------ */
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: var(--edge);
+  }
+
+  /* le bloc de sol : papier, vert ou nuit, jamais de surface intermediaire */
+  .ground {
+    padding-block: clamp(var(--spacing-s5), 9vw, var(--spacing-s6));
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  /* l'etiquette : Archivo etroit, capitales. Large ou etroit, rien entre. */
+  .label {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 75, "wght" 800;
+    font-size: var(--text-2xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    line-height: 1.5;
+    font-variation-settings: "opsz" 28;
+    max-width: 34ch;
+  }
+
+  /* La coupe a 41 degres. Elle va sur les images et les separations de sol,
+     jamais sur un element focusable : clip-path rogne aussi l'anneau de
+     focus. */
+  .cut {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, var(--cut-x) 100%, 0 calc(100% - var(--cut-y)));
+  }
+  .cut-top {
+    clip-path: polygon(0 var(--cut-y), 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* La meme coupe, a l'echelle d'une bande pleine largeur. L'encoche de 22px
+     taillee pour une photo disparait sur 1440px et passe pour un defaut de
+     rendu : ici la diagonale prend le quart de la largeur, et 21.73vw de
+     hauteur pour 25vw de base, ce qui fait tan = 0.869, soit 41 degres
+     exactement, a n'importe quelle largeur d'ecran. */
+  .cut-band {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 25vw 100%, 0 calc(100% - 21.73vw));
+  }
+
+  /* La coupe du heros. Meme angle, deux differences assumees.
+     Elle part du bas-DROIT parce que la colonne de texte occupe le bas-gauche :
+     une entaille sous le titre aurait pose du noir sur du vert au milieu d'une
+     phrase. Et elle prend 12,5vw de base pour 10,86vw de haut — la moitie de
+     `.cut-band` — parce qu'a 21,73vw le coin mangeait la ligne des boutons a
+     1280x720, la taille meme que mesure la passe 12.
+     tan = 10.86 / 12.5 = 0.869, soit 41 degres a n'importe quelle largeur. */
+  .cut-hero {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10.86vw), calc(100% - 12.5vw) 100%, 0 100%);
+  }
+  /* Le triangle complementaire, en vert. Il est peint comme un element et non
+     laisse en fond de section : le sol declare d'une section doit etre celui
+     qu'on voit vraiment, sinon la passe 5 lit « chalk sur vert », 1.59:1, la
+     combinaison interdite, alors que le texte est en fait sur la nuit. */
+  .cut-hero-wedge {
+    clip-path: polygon(100% calc(100% - 10.86vw), 100% 100%, calc(100% - 12.5vw) 100%);
+  }
+
+  /* liste a retrait suspendu, sans chiffre : une liste ne porte de numeros
+     que si l'ordre dit quelque chose. */
+  .stack {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .stack > li {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 100, "wght" 600;
+    font-size: var(--text-sm);
+    padding-block: var(--spacing-s2);
+    border-bottom: 1px solid var(--border);
+  }
+  .stack > li:first-child { border-top: 1px solid var(--border); }
+
+  /* --- le formulaire -------------------------------------------------------
+     Un champ est une ligne, pas une boite : filet du bas, rayon zero, fond
+     transparent. Il herite du sol sur lequel il est pose, comme tout le reste.
+     Le filet passe a l'encre pleine au survol et au focus, et l'anneau de
+     focus est le meme que partout ailleurs : 3px, decale de 3px. */
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 0;
+    background: transparent;
+    color: var(--foreground);
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    transition: border-color 180ms ease;
+  }
+  .field:hover { border-bottom-color: var(--foreground); }
+  .field:focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+    border-bottom-color: var(--foreground);
+  }
+  .field::placeholder { color: var(--muted-foreground); }
+  .field[aria-invalid="true"] {
+    border-bottom-width: 2px;
+    border-bottom-color: var(--foreground);
+  }
+  /* `select` sur fond vert : Chrome peint sa fleche en gris systeme et le
+     texte de l'option sur du blanc. On force l'un, l'autre est hors de
+     portee du document et reste au systeme. */
+  select.field { appearance: none; cursor: pointer; }
+
+  /* La case a cocher. La case native arrive avec des coins arrondis et un
+     bleu systeme : sur un site dont le seul rayon vaut zero, elle detonne.
+     Coche : l'entaille du n, une barre inclinee a 49 degres de la verticale,
+     dans la couleur du sol. Pas d'icone importee pour une seule occasion. */
+  .check {
+    appearance: none;
+    display: grid;
+    place-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border: 1px solid var(--foreground);
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 180ms ease;
+  }
+  .check:checked { background: var(--foreground); }
+  .check:checked::after {
+    content: "";
+    width: 3px;
+    height: 11px;
+    background: var(--background);
+    transform: skewX(-49deg);
+  }
+  .check:focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+  }
+}
+
+/* --- mouvement ------------------------------------------------------------
+   Aucun etat initial d'animation n'est pose ici. Les opacites et decalages
+   de depart sont ecrits en JS, juste avant de creer les tweens. Sans
+   JavaScript, la page reste complete et lisible. */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- rideau d'ouverture ---------------------------------------------------
+   La classe `intro-pending` n'est posee que par le script en ligne du <head>.
+   Elle n'existe pas sans JavaScript : la page reste alors entiere, et c'est
+   la regle du projet. Elle est retiree des que le rideau commence a monter,
+   et un chien de garde la retire de toute facon au bout de 3,5 s. */
+
+.intro-pending body {
+  overflow: hidden;
+  background: var(--color-lime);
+}
+.intro-pending body > *:not(#intro) {
+  visibility: hidden;
 }
