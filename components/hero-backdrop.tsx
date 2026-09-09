@@ -13,12 +13,17 @@
  * jamais un client. Une image generee presentee comme un client sur le site
  * d'un courtier serait un faux temoignage en image.
  *
- * Trois raisons de ne pas servir la video a tout le monde :
+ * Deux raisons de ne pas servir la video a tout le monde :
  * — sous `prefers-reduced-motion`, on s'arrete sur l'affiche ;
- * — en dessous de 860px on sert l'affiche aussi : 2,1 Mo pour un fond de
- *   decor sur un telephone en 4G n'est pas un arbitrage, c'est un oubli ;
  * — le rendu serveur sert l'affiche, donc le premier rendu client sert la
  *   meme chose et la reconciliation ne trouve rien a redire.
+ *
+ * Le telephone recoit la video, a la demande du client : le fond fige se
+ * lisait comme une image qui n'a pas fini de charger. Il recoit la copie
+ * `stade-960` (1,7 Mo), `preload="metadata"` : le corps n'arrive qu'au moment
+ * de lire, et `poster` tient l'ecran jusque-la. Sur iOS en mode economie
+ * d'energie l'autoplay est refuse malgre `muted` et `playsInline` : l'affiche
+ * reste, c'est le repli prevu.
  *
  * Le voile est un aplat, pas un degrade : le projet n'en a aucun, et surtout
  * un aplat se mesure. La passe 6 lit les pixels reellement peints sous le
@@ -36,17 +41,16 @@ export default function HeroBackdrop() {
   const [narrow, setNarrow] = useState(false);
 
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 860px)");
     const mid = window.matchMedia("(min-width: 1200px)");
     const still = window.matchMedia("(prefers-reduced-motion: reduce)");
     const decide = () => {
-      setMotion(wide.matches && !still.matches);
+      setMotion(!still.matches);
       setNarrow(!mid.matches);
     };
     decide();
-    for (const q of [wide, mid, still]) q.addEventListener("change", decide);
+    for (const q of [mid, still]) q.addEventListener("change", decide);
     return () => {
-      for (const q of [wide, mid, still]) q.removeEventListener("change", decide);
+      for (const q of [mid, still]) q.removeEventListener("change", decide);
     };
   }, []);
 

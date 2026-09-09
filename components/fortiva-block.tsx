@@ -33,16 +33,11 @@ export default function FortivaBlock() {
   const [motion, setMotion] = useState(false);
 
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 860px)");
     const still = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const decide = () => setMotion(wide.matches && !still.matches);
+    const decide = () => setMotion(!still.matches);
     decide();
-    wide.addEventListener("change", decide);
     still.addEventListener("change", decide);
-    return () => {
-      wide.removeEventListener("change", decide);
-      still.removeEventListener("change", decide);
-    };
+    return () => still.removeEventListener("change", decide);
   }, []);
 
   return (
