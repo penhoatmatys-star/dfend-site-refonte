@@ -145,6 +145,13 @@ export default function OrbitField({
       const { cx, cy, ax, ay } = field();
       ctx.clearRect(0, 0, width, height);
 
+      /* Boite sans surface : ca arrive a la premiere image quand la section
+       * est encore sous le rideau de l'ouverture, `display:none`, donc mesuree
+       * a 0x0. `field()` rend alors des demi-axes negatifs, et `ctx.ellipse`
+       * jette `IndexSizeError` sur un rayon negatif. On ne peint rien tant
+       * qu'il n'y a pas de place ; le ResizeObserver repeint des qu'il y en a. */
+      if (ax <= 0 || ay <= 0) return;
+
       /* Les six orbites sont TRACEES, d'un filet. C'est ce qui a change la
          piece : avec les seuls corps, la figure se lisait comme six points
          semes au hasard, et une capture prise au mauvais instant les montrait

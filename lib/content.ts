@@ -124,6 +124,10 @@ export const OBJECTIVES = [
   "Maintain your lifestyle",
 ] as const;
 
+/* Les six lignes de couverture, en toutes lettres. Elles ne sont plus lues
+ * ici depuis le 2026-09-09 : la liste sous « design » du rail de methode a ete
+ * retiree. Le carrousel « our services » les sert desormais via MATERIALS,
+ * ou chaque titre repete la meme chaine. Garde comme reference. */
 export const SERVICES = [
   "Lifestyle Risk Mitigation",
   "Income and Family Protection",

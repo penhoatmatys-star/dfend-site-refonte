@@ -2,19 +2,19 @@
 
 /* La methode en trois temps, en rail de progression.
  *
- * Elle remplace `system`, qui rangeait les trois phases derriere un
- * `tablist`. Le motif etait correct au clavier et il tenait ses tests, mais il
- * cachait deux phases sur trois — dont les six prestations, qui sont la seule
- * matiere que porte cette section. Sur un site dont la regle premiere est de
- * ne rien inventer, replier ce qu'on a de sourcé est le mauvais arbitrage.
- * Tout est maintenant visible d'un coup.
+ * Trois phases dans l'ordre : analyze, design, monitor. Chacune porte son
+ * numero et son intitule, rien de plus — la liste des six prestations qui
+ * vivait sous « design » a ete retiree a la demande du client le 2026-09-09.
+ * Les six lignes restent servies plus bas, dans le carrousel « our services ».
+ * Les numeros 01–03 tiennent parce que l'ordre dit quelque chose : on analyse
+ * avant de concevoir, on concoit avant de suivre.
  *
  * La forme vient du site frere dfendinsurance.com (« Scroll Reveal Content A »
- * d'abui sur 21st.dev, retravaille) : un index colle a gauche qui porte
- * 01–03 et les trois noms, une echine d'un pixel qui se remplit a mesure
- * qu'on descend — la methode avance litteralement — et les trois etapes en
- * flux normal a droite. En dessous de 1024 px l'index se replie en frise
- * verticale le long des etapes : rien n'est epingle, c'est une colonne.
+ * de 21st.dev, retravaille) : un index colle a gauche qui porte 01–03 et les
+ * trois noms, une echine d'un pixel qui se remplit a mesure qu'on descend —
+ * la methode avance litteralement — et les trois etapes en flux normal a
+ * droite. En dessous de 1024 px l'index se replie en frise verticale le long
+ * des etapes : rien n'est epingle, c'est une colonne.
  *
  * `active` vient d'un seul IntersectionObserver avec une bande mince au
  * milieu de l'ecran. Le remplissage et le numero allume en derivent tous les
@@ -23,24 +23,16 @@
  * ecouteur de defilement. Si l'observateur ne se declenche jamais, l'etape 01
  * reste allumee, ce qui est un etat de repos correct.
  *
- * L'asymetrie est le sujet, et on ne la comble pas : deux phases tiennent en
- * une phrase, la troisieme porte les six prestations. C'est a l'etape
- * « design » que le travail se voit.
- *
  * Sans JavaScript, les trois etapes sont la, dans l'ordre, echine grise et
  * numeros eteints. Rien n'est masque en CSS.
  */
 
 import { useEffect, useRef, useState } from "react";
-import { METHOD, SERVICES } from "@/lib/content";
+import { METHOD } from "@/lib/content";
 
 const NAMES = ["analyze", "design", "monitor"] as const;
 
-export default function MethodRail({
-  servicesLabel,
-}: {
-  servicesLabel: string;
-}) {
+export default function MethodRail() {
   const [active, setActive] = useState(0);
   const stepRefs = useRef<(HTMLElement | null)[]>([]);
 
@@ -175,21 +167,6 @@ export default function MethodRail({
                 </p>
 
                 <h3 className="mt-s3 text-2xl">{phase.head}</h3>
-
-                {/* Seule l'etape 2 porte de la matiere. L'asymetrie est le
-                    sujet : c'est la que le travail se voit. */}
-                {phase.key === "design" ? (
-                  <>
-                    <p className="label mt-s4 text-[color:var(--muted-foreground)]">
-                      {servicesLabel}
-                    </p>
-                    <ul className="stack mt-s2">
-                      {SERVICES.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </>
-                ) : null}
               </article>
             ))}
           </div>

@@ -231,10 +231,11 @@ async function passMobile(browser) {
 async function passSystem(browser) {
   head("3. la methode en trois temps");
 
-  /* Le `tablist` a ete remplace par un rail de progression le 2026-09-07 :
-   * il repliait deux phases sur trois, dont les six prestations, qui sont la
-   * seule matiere de la section. Ce qui est mesure a change avec lui — on ne
-   * verifie plus qu'un panneau s'ouvre, on verifie que RIEN n'est ferme. */
+  /* Le `tablist` a ete remplace par un rail de progression le 2026-09-07 ;
+   * la liste des six prestations sous « design » a ete retiree le 2026-09-09.
+   * Les trois phases ne portent plus que leur numero et leur intitule. On
+   * verifie qu'elles sont toutes les trois dans le flux, qu'aucune n'est
+   * repliee, et que la progression au clavier marche. */
   for (const [label, opts] of [
     ["desktop", { width: 1280, height: 900 }],
     ["mobile", { width: 375, height: 812, isMobile: true }],
@@ -253,18 +254,12 @@ async function passSystem(browser) {
           const cs = getComputedStyle(s);
           return cs.display === "none" || cs.visibility === "hidden" || s.hidden;
         }).length,
-        services: document.querySelectorAll("#system .stack li").length,
         numerals: steps.map((s) => s.querySelector("p")?.textContent?.trim() ?? ""),
       };
     });
 
     check(shape.steps === 3, `${label} — les trois phases sont dans le flux`, `${shape.steps}`);
     check(shape.hidden === 0, `${label} — aucune phase n'est repliee`, `${shape.hidden} masquees`);
-    check(
-      shape.services === 6,
-      `${label} — les six prestations sont visibles d'emblee`,
-      `${shape.services} lignes`,
-    );
     check(
       shape.numerals.join() === "01,02,03",
       `${label} — la sequence est numerotee, c'est la seule du site qui l'est`,
@@ -804,6 +799,16 @@ async function passIntro(browser) {
     pending: document.documentElement.classList.contains("intro-pending"),
   }));
   check(!second.intro && !second.pending, "elle ne rejoue pas dans la meme session", JSON.stringify(second));
+
+  /* Rien ne doit etre jete pendant l'ouverture. Les autres passes desactivent
+   * l'intro, donc un composant qui se peint sous le rideau — la section est
+   * alors `display:none`, mesuree a 0x0 — n'etait vu par aucune : la piece en
+   * orbite jetait la un `IndexSizeError` sur un rayon d'ellipse negatif. */
+  check(
+    page.__errors.length === 0,
+    "l'accueil ne jette rien pendant l'ouverture",
+    page.__errors.slice(0, 2).join(" | "),
+  );
   await page.close();
 }
 
@@ -889,10 +894,13 @@ async function passContent(browser) {
 
 async function passFold(browser) {
   head("12. « contact us » dans le premier ecran");
-  /* 1280x720 et 1440x768 sont deux formats d'ordinateur portable courants.
-   * C'est la mesure a ces deux tailles qui a fait plafonner --text-4xl a
-   * 88px : le titre poussait le bouton sous la ligne de flottaison. */
+  /* 1280x720 et 1440x768 sont deux formats d'ordinateur portable courants ;
+   * 1920x820 est un portable branche sur un moniteur large mais court. C'est
+   * la mesure a ces tailles qui a fait plafonner --text-4xl a 72px : au-dela,
+   * le titre poussait le bouton sous la ligne de flottaison. */
   for (const [w, h] of [
+    [1920, 820],
+    [1536, 800],
     [1440, 900],
     [1440, 768],
     [1280, 720],

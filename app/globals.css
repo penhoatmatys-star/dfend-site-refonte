@@ -92,10 +92,12 @@
   /* L'echelle est bornee par le contenu aux deux bouts.
      En bas : --text-4xl descend a 44px parce que le mot « architecture. »
      debordait a 375px.
-     En haut : elle plafonne a 88px et non 104 parce qu'a 1280x720 et
-     1440x768, deux formats d'ordinateur portable courants, le titre poussait
-     « enter & apply » sous la ligne de flottaison. Le premier ecran doit
-     porter l'appel a l'action. */
+     En haut : elle plafonne a 72px. C'etait 88 tant que le heros portait
+     deux boutons dont « enter & apply » ; il n'en porte plus qu'un, « contact
+     us », et sur un ecran large mais court — 1920x800, un portable branche
+     sur un moniteur — le titre en 88 poussait encore le bouton sous la ligne
+     de flottaison. Le premier ecran doit porter l'appel a l'action. La passe
+     12 le verifie a cinq formats, dont 1920x820. */
   --text-2xs: 12px;
   --text-xs: clamp(14px, 0.3vw + 13px, 15px);
   --text-sm: clamp(17px, 0.3vw + 16px, 18px);
@@ -104,7 +106,7 @@
   --text-xl: clamp(26px, 1.6vw + 20px, 30px);
   --text-2xl: clamp(32px, 3.2vw + 20px, 44px);
   --text-3xl: clamp(42px, 6vw + 18px, 68px);
-  --text-4xl: clamp(44px, 7.4vw + 12px, 88px);
+  --text-4xl: clamp(44px, 6vw + 10px, 72px);
 
   /* Le titre de section, a la demande du client : « on and off the field »,
      « how it works » et les autres etaient trop discrets face au heros.

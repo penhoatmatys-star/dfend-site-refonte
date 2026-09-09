@@ -42,9 +42,9 @@ export default function Home() {
           contenu au-dessus, et rien ne remonte au-dessus de l'en-tete. */}
       <section className="on-night relative isolate flex min-h-[clamp(460px,74svh,660px)] items-center overflow-hidden bg-night text-chalk">
         <HeroBackdrop />
-        <div className="wrap relative z-10 py-[clamp(40px,5vw,72px)]">
+        <div className="wrap relative z-10 py-[clamp(28px,4vw,56px)]">
           <div className="md:max-w-[60%]">
-            <h1 className="max-w-[13ch] text-4xl text-lime [font-variation-settings:'wdth'_118,'wght'_900]">
+            <h1 className="max-w-[17ch] text-4xl text-lime [font-variation-settings:'wdth'_118,'wght'_900]">
               <HeroHeadline>{SITE.promise}</HeroHeadline>
             </h1>
             <p className="lede mt-s4">{SITE.lede}</p>
@@ -77,9 +77,6 @@ export default function Home() {
             <h2 className="mt-s3" data-reveal>
               We&rsquo;re there for you on and off the field.
             </h2>
-            <p className="mt-s4" data-reveal>
-              We build your personal Defense Risk Mitigation System to help you:
-            </p>
             <div data-reveal>
               <OrbitField
                 className="mt-s2"
@@ -113,7 +110,7 @@ export default function Home() {
             We build your personal Defense Risk Mitigation System.
           </h2>
           <div data-reveal>
-            <MethodRail servicesLabel="six lines of cover" />
+            <MethodRail />
           </div>
         </div>
       </section>

@@ -34,39 +34,39 @@ export default function SiteHeader() {
         <Link
           href="/"
           aria-label="dfend group, home"
-          className="inline-flex items-center py-3 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime"
+          className="inline-flex min-h-11 items-center focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime"
         >
-          {/* Le mot-symbole « dfend group », detoure du carre vert 1600x1600
-              fourni par le client : l'alpha vient de la darkness du trace, pas
-              d'un seuil binaire, donc l'antialiasing d'origine est conserve.
-              Il remplace « dfend insurance brokers » partout dans l'en-tete.
-              Les deux anciens verrous restent dans public/img : ils servent
-              encore de reference de detourage.
+          {/* Le mot-symbole « dfend group », detoure du carre 1600x1600 fourni
+              par le client : l'alpha vient de la darkness du trace, pas d'un
+              seuil binaire, donc l'antialiasing d'origine est conserve.
 
-              Il est peint en vert de marque, a la demande du client. Pas de
-              troisieme fichier PNG pour autant : le verrou blanc sert de
-              masque et la couleur vient du jeton `--color-lime`. Le trace est
-              donc exactement celui du client, l'antialiasing compris, et le
-              jour ou le vert bouge — il a deja bouge une fois, du #C7D65D
-              releve au pixel au #C6D75B documente — le logo suit sans qu'on
-              regenere quoi que ce soit.
+              A la demande du client, il reprend le carre tel quel : plaque
+              verte, mot-symbole noir. Le verrou blanc de public/img sert de
+              masque, le sol vient du jeton `--color-lime` et le trace du jeton
+              `--color-ink` — un seul PNG pour les deux, et le jour ou l'un des
+              deux tons bouge le logo suit sans qu'on regenere quoi que ce
+              soit. Rayon zero, comme tout le reste.
 
               Le mot-symbole est deja porte par l'`aria-label` du lien : la
               plaque masquee est decorative et ne redit rien. */}
           <span
             aria-hidden="true"
-            className="block aspect-[632/113] w-[clamp(132px,18vw,172px)] bg-lime"
-            style={{
-              maskImage: "url(/img/logo-dfend-group-white.png)",
-              maskSize: "contain",
-              maskRepeat: "no-repeat",
-              maskPosition: "center",
-              WebkitMaskImage: "url(/img/logo-dfend-group-white.png)",
-              WebkitMaskSize: "contain",
-              WebkitMaskRepeat: "no-repeat",
-              WebkitMaskPosition: "center",
-            }}
-          />
+            className="inline-flex bg-lime px-3 py-2"
+          >
+            <span
+              className="block aspect-[632/113] w-[clamp(120px,15vw,150px)] bg-ink"
+              style={{
+                maskImage: "url(/img/logo-dfend-group-white.png)",
+                maskSize: "contain",
+                maskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskImage: "url(/img/logo-dfend-group-white.png)",
+                WebkitMaskSize: "contain",
+                WebkitMaskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+              }}
+            />
+          </span>
         </Link>
 
         {/* Le coin haut-droit. Sur telephone il porte le telechargement et le
