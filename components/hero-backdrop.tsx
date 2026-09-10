@@ -79,14 +79,16 @@ export default function HeroBackdrop() {
           className="h-full w-full object-cover"
         />
       )}
-      {/* Un seul voile d'encre, plat et sur toute la largeur. Pas de degrade :
-          le projet n'en a aucun, et un aplat se mesure. Il est calibre sur le
-          point le plus clair de l'atrium — les trouees de ciel en haut a
-          droite. La passe 6 le verifie a cinq instants de la boucle.
-          Sur mobile le texte occupe toute la largeur et passe donc pile sur le
-          filigrane « dfend group » du film : le voile y est un cran plus
-          dense pour que la lede reste lisible. */}
-      <div className="absolute inset-0 bg-ink/92 md:bg-ink/75" />
+      {/* Un seul voile d'encre, plat et sur toute la largeur, meme valeur
+          partout. Pas de degrade : le projet n'en a aucun, et un aplat se
+          mesure. Il est calibre sur le point le plus clair de l'atrium — les
+          trouees de ciel en haut a droite. La passe 6 le verifie a cinq
+          instants de la boucle.
+          Il a ete pousse a 92 % sur mobile un moment, pour couvrir le
+          filigrane « dfend group » derriere la lede ; le client a juge la
+          video trop eteinte et l'a fait revenir a 75 % partout. Le filigrane
+          reste donc faiblement lisible sur petit ecran, c'est assume. */}
+      <div className="absolute inset-0 bg-ink/75" />
     </div>
   );
 }
