@@ -759,11 +759,24 @@ async function passIntro(browser) {
    * paquet three.js arrive : sur une machine lente, une temporisation fixe
    * mesure le vide et fait echouer une passe qui devrait etre verte. */
   const appeared = await page
-    .waitForSelector("#intro button", { timeout: 8000 })
+    .waitForSelector("#intro canvas", { timeout: 8000 })
     .then(() => true)
     .catch(() => false);
   check(appeared, "l'intro se monte a la premiere visite");
-  check(appeared, "un bouton permet de la passer");
+
+  /* Le bouton « skip intro » a ete retire a la demande du client le
+   * 2026-09-10. L'ouverture reste coupable, mais au geste : on verifie dans
+   * la source que les ecouteurs sont toujours cables. */
+  const introSrc = readFileSync(
+    new URL("../components/glyph-intro.tsx", import.meta.url),
+    "utf8",
+  );
+  check(
+    /addEventListener\("pointerdown", skip\)/.test(introSrc) &&
+      /"keydown", onKey/.test(introSrc) &&
+      /timeline\.timeScale\(2\.6\)/.test(introSrc),
+    "sans bouton, un geste (clic, clavier, molette) la passe encore",
+  );
 
   const gone = await page
     .waitForFunction(() => !document.getElementById("intro"), { timeout: 12000 })

@@ -20,8 +20,10 @@
  * projet n'a aucun degrade, et un aplat se mesure — la passe 6 lit les pixels
  * sous le verrou et sous le bouton, image par image.
  *
- * Le lien sort du site, donc le bouton est le traitement secondaire, contour
- * seul. Le vert plein reste pour le heros et pour l'envoi du formulaire.
+ * Le lien sort du site. Il a d'abord ete traite en contour seul, le vert plein
+ * etant garde pour le heros et l'envoi du formulaire ; le client a demande le
+ * 2026-09-10 un bouton entierement lime. Le texte passe donc en encre : chalk
+ * sur lime vaudrait 1.59:1, la combinaison interdite du projet.
  */
 
 import Image from "next/image";
@@ -90,7 +92,7 @@ export default function FortivaBlock() {
           <a
             href={SITE.fortiva}
             rel="noopener noreferrer external"
-            className="label group mt-s4 inline-flex min-h-11 items-center gap-3 border border-chalk px-5 py-3 text-chalk transition-colors duration-200 hover:border-lime hover:bg-lime hover:text-ink focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime"
+            className="label group mt-s4 inline-flex min-h-11 items-center gap-3 border border-lime bg-lime px-5 py-3 text-ink transition-colors duration-200 hover:border-chalk hover:bg-chalk focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime"
           >
             enter &amp; apply
             <BrandChevron />

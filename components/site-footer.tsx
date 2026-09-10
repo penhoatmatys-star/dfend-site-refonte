@@ -69,13 +69,15 @@ export default function SiteFooter() {
               </a>
             </p>
 
+            {/* Le client a fait remplacer ici le numero +41 par cette adresse
+                le 2026-09-10. Elle est portee en clair, ce n'est pas SITE.email
+                (aa@dfend.swiss), qui reste l'adresse de la section contact. */}
             <p className="mt-s3">
               <a
-                href={SITE.whatsapp}
-                rel="noopener noreferrer external"
+                href="mailto:info@dfend.swiss"
                 className="inline-flex min-h-11 items-center underline decoration-rule-chalk underline-offset-4 transition-colors duration-200 hover:text-lime hover:decoration-lime focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime"
               >
-                {SITE.phone}
+                info@dfend.swiss
               </a>
             </p>
 

@@ -46,7 +46,7 @@ export function TestimonialCard({
   return (
     <figure
       data-legal-review={legalReview}
-      className="flex w-[19rem] shrink-0 flex-col justify-between border border-[color:var(--border)] bg-[color:var(--card)] p-6 sm:w-[23rem] sm:p-7"
+      className="flex w-[86vw] max-w-[22rem] shrink-0 flex-col justify-between border border-[color:var(--border)] bg-[color:var(--card)] p-6 sm:w-[23rem] sm:max-w-none sm:p-7"
     >
       <blockquote className="text-sm leading-[1.6]">
         <q className="[quotes:none]">{text}</q>

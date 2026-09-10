@@ -46,7 +46,10 @@ export default function OfficesBand() {
   }, []);
 
   return (
-    <section className="on-night relative isolate overflow-hidden border-y border-rule-chalk bg-night py-s5 text-chalk">
+    <section
+      id="offices"
+      className="on-night relative isolate scroll-mt-24 overflow-hidden border-y border-rule-chalk bg-night py-s5 text-chalk"
+    >
       {motion ? (
         <video
           className="absolute inset-0 -z-10 h-full w-full object-cover"

@@ -99,16 +99,26 @@ export const ECOSYSTEM = {
   ],
 } as const;
 
-/* Le site tient sur une seule page. Les quatre onglets ne sont pas des routes,
- * ils descendent a la section qui porte leur matiere : le mot-symbole en haut
- * a gauche est le seul chemin vers le haut de page, et `/download` la seule
- * page a part entiere de l'en-tete. Chaque cible existe comme `id` dans
- * app/page.tsx et porte un `scroll-mt` qui degage l'en-tete colle. */
+/* Le site tient sur une seule page. Les onglets ne sont pas des routes, ils
+ * descendent a la section qui porte leur matiere ; le mot-symbole en haut a
+ * gauche est le seul chemin vers le haut de page, et `/download` la seule
+ * page a part entiere de l'en-tete.
+ *
+ * Etat au 2026-09-10, apres plusieurs passes du client :
+ *  — l'onglet « about » est retire (sa section n'a plus de titre) ;
+ *  — « contact » n'est plus un lien de menu, c'est le bouton vert « contact
+ *    us » en bout de barre (cf. `site-header.tsx`), cible `/#contact` ;
+ *  — un lien de menu par section principale : Fortiva, les avis clients, la
+ *    methode, les prestations, les implantations. La video famille et « our
+ *    customers » n'en ont pas (pas de titre propre / doublon).
+ * Chaque cible existe comme `id` dans app/page.tsx ou ses composants, avec
+ * un `scroll-mt` qui degage l'en-tete colle. */
 export const NAV = [
-  { href: "/#about", label: "about" },
-  { href: "/#services", label: "services" },
+  { href: "/#fortiva", label: "fortiva" },
   { href: "/#testimonials", label: "testimonials" },
-  { href: "/#contact", label: "contact" },
+  { href: "/#system", label: "how it works" },
+  { href: "/#services", label: "services" },
+  { href: "/#offices", label: "offices" },
 ] as const;
 
 /* « We build your personal Defense Risk Mitigation System to help you: »

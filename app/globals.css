@@ -366,23 +366,10 @@
     clip-path: polygon(0 0, 100% 0, 100% 100%, 25vw 100%, 0 calc(100% - 21.73vw));
   }
 
-  /* La coupe du heros. Meme angle, deux differences assumees.
-     Elle part du bas-DROIT parce que la colonne de texte occupe le bas-gauche :
-     une entaille sous le titre aurait pose du noir sur du vert au milieu d'une
-     phrase. Et elle prend 12,5vw de base pour 10,86vw de haut — la moitie de
-     `.cut-band` — parce qu'a 21,73vw le coin mangeait la ligne des boutons a
-     1280x720, la taille meme que mesure la passe 12.
-     tan = 10.86 / 12.5 = 0.869, soit 41 degres a n'importe quelle largeur. */
-  .cut-hero {
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10.86vw), calc(100% - 12.5vw) 100%, 0 100%);
-  }
-  /* Le triangle complementaire, en vert. Il est peint comme un element et non
-     laisse en fond de section : le sol declare d'une section doit etre celui
-     qu'on voit vraiment, sinon la passe 5 lit « chalk sur vert », 1.59:1, la
-     combinaison interdite, alors que le texte est en fait sur la nuit. */
-  .cut-hero-wedge {
-    clip-path: polygon(100% calc(100% - 10.86vw), 100% 100%, calc(100% - 12.5vw) 100%);
-  }
+  /* La coupe du heros et son triangle vert complementaire ont ete retires le
+     2026-09-10 a la demande du client : le fond video occupe desormais tout le
+     premier ecran, sans entaille. Le vert du premier ecran ne vit plus que
+     dans le titre. */
 
   /* liste a retrait suspendu, sans chiffre : une liste ne porte de numeros
      que si l'ordre dit quelque chose. */

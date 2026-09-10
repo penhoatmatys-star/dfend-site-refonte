@@ -66,22 +66,25 @@ export default function FigureHover({
           preload="none"
           poster={poster}
           aria-label={alt}
-          onPointerEnter={start}
-          onPointerLeave={stop}
         >
           <source src={src} type="video/mp4" />
         </video>
 
-        {/* Le bouton couvre l'image : il porte l'action, le focus clavier et
-            le marqueur d'etat. Il n'est pas dans la coupe — `clip-path`
-            rogne aussi l'anneau de focus — donc l'anneau est pose en
-            `inset` plutot qu'en `offset`. */}
+        {/* Le bouton couvre l'image : il porte l'action, le survol, le focus
+            clavier et le marqueur d'etat. Comme il est en `absolute inset-0`
+            au-dessus de la video, c'est lui qui recoit le pointeur — les
+            ecouteurs de survol vont donc ici, pas sur la `<video>` en dessous,
+            sinon la lecture au survol ne partait jamais. Il n'est pas dans la
+            coupe — `clip-path` rogne aussi l'anneau de focus — donc l'anneau
+            est pose en `inset` plutot qu'en `offset`. */}
         <button
           type="button"
           aria-pressed={pinned}
           aria-label={
             pinned ? `Pause the clip: ${alt}` : `Play the clip: ${alt}`
           }
+          onPointerEnter={start}
+          onPointerLeave={stop}
           onFocus={start}
           onBlur={stop}
           onClick={() => {

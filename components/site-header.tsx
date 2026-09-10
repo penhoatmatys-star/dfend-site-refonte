@@ -10,10 +10,10 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // Le panneau deroulant n'existe qu'en dessous de 860px. En repassant
+  // Le panneau deroulant n'existe qu'en dessous de 1140px. En repassant
   // au-dessus il faut le refermer, sinon aria-expanded ment.
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 860px)");
+    const wide = window.matchMedia("(min-width: 1140px)");
     const close = () => setOpen(false);
     wide.addEventListener("change", close);
     return () => wide.removeEventListener("change", close);
@@ -74,7 +74,7 @@ export default function SiteHeader() {
             largeur. Sur ordinateur, `order` remet le bouton apres la
             navigation : « en haut a droite » veut dire le dernier element de
             la ligne, pas le troisieme sur quatre. */}
-        <div className="flex items-center gap-s2 min-[860px]:order-3">
+        <div className="flex items-center gap-s2 min-[1140px]:order-3">
           {/* En dessous de 480 px le mot tombe et il ne reste que la fleche.
               Additionnes, le verrou (132 px), « download » et « menu »
               debordaient les 335 px utiles d'un telephone de 375 : l'en-tete
@@ -99,7 +99,7 @@ export default function SiteHeader() {
             aria-expanded={open}
             aria-controls="nav"
             onClick={() => setOpen((v) => !v)}
-            className="label min-h-11 cursor-pointer border border-rule-chalk px-4 text-chalk transition-colors duration-200 hover:border-lime hover:bg-lime hover:text-ink focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime min-[860px]:hidden"
+            className="label min-h-11 cursor-pointer border border-rule-chalk px-4 text-chalk transition-colors duration-200 hover:border-lime hover:bg-lime hover:text-ink focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime min-[1140px]:hidden"
           >
             menu
           </button>
@@ -109,9 +109,9 @@ export default function SiteHeader() {
           id="nav"
           aria-label="Main"
           data-open={open}
-          className="hidden basis-full data-[open=true]:block min-[860px]:order-2 min-[860px]:block min-[860px]:basis-auto"
+          className="hidden basis-full data-[open=true]:block min-[1140px]:order-2 min-[1140px]:block min-[1140px]:basis-auto"
         >
-          <ul className="flex flex-col gap-0.5 border-t border-rule-chalk pt-s2 pb-s3 min-[860px]:flex-row min-[860px]:gap-s3 min-[860px]:border-0 min-[860px]:p-0">
+          <ul className="flex flex-col gap-0.5 border-t border-rule-chalk pt-s2 pb-s3 min-[1140px]:flex-row min-[1140px]:items-center min-[1140px]:gap-s3 min-[1140px]:border-0 min-[1140px]:p-0">
             {NAV.map((item) => {
               const current = pathname === item.href;
               return (
@@ -136,6 +136,19 @@ export default function SiteHeader() {
                 </li>
               );
             })}
+            {/* « contact » n'est plus un lien de menu : c'est le bouton vert
+                en bout de barre, a la demande du client (2026-09-10). Meme
+                habillage que « download » — aplat lime, texte encre, jamais
+                de blanc sur vert. */}
+            <li className="mt-1 min-[1140px]:mt-0">
+              <Link
+                href="/#contact"
+                onClick={() => setOpen(false)}
+                className="label group inline-flex min-h-11 items-center bg-lime px-4 text-ink transition-colors duration-200 hover:bg-chalk focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime"
+              >
+                contact us
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

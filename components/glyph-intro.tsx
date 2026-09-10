@@ -21,8 +21,6 @@ export default function GlyphIntro() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const sheetRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const skipRef = useRef<HTMLButtonElement | null>(null);
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   /* La decision d'ouvrir est deja prise par `intro-mount` : si ce composant
    * est monte, l'intro joue. `play` ne sert plus qu'a le demonter a la fin. */
@@ -41,7 +39,6 @@ export default function GlyphIntro() {
     const canvas = canvasRef.current;
     const sheet = sheetRef.current;
     const root = rootRef.current;
-    const skip_ = skipRef.current;
     if (!canvas || !sheet || !root) return;
 
     let scene: GlyphScene;
@@ -71,7 +68,6 @@ export default function GlyphIntro() {
     draw();
 
     const timeline = gsap.timeline({ onUpdate: draw, onComplete: finish });
-    timelineRef.current = timeline;
 
     timeline
       .to(pose, { yaw: 0, duration: 1.15, ease: "power3.out" }, 0)
@@ -83,10 +79,6 @@ export default function GlyphIntro() {
         document.documentElement.classList.remove(INTRO_PENDING);
       }, 0.95)
       .to(pose, { fade: 0, duration: 0.35, ease: "power2.in" }, 0.95)
-      // Le bouton part avec la lettre. Le laisser vivre jusqu'a la fin de la
-      // timeline le poserait trois quarts de seconde sur une page deja
-      // rendue, ou il ne veut plus rien dire.
-      .to(skip_, { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 0.95)
       .to(
         sheet,
         {
@@ -121,7 +113,6 @@ export default function GlyphIntro() {
       window.removeEventListener("touchmove", skip);
       window.removeEventListener("resize", fit);
       timeline.kill();
-      timelineRef.current = null;
       scene.dispose();
     };
   }, [play, finish]);
@@ -149,14 +140,10 @@ export default function GlyphIntro() {
         aria-hidden="true"
         className="absolute inset-0 h-full w-full"
       />
-      <button
-        ref={skipRef}
-        type="button"
-        onClick={() => timelineRef.current?.seek(0.95).timeScale(2.6)}
-        className="label absolute top-(--edge) right-(--edge) z-10 inline-flex min-h-11 cursor-pointer items-center border border-ink px-4 text-ink transition-colors duration-200 hover:bg-ink hover:text-lime focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-ink"
-      >
-        skip intro
-      </button>
+      {/* Plus de bouton « skip intro » (retire a la demande du client le
+          2026-09-10). L'ouverture reste coupable : un clic, une touche, une
+          molette ou un mouvement du doigt l'accelere jusqu'au retrait du
+          rideau — voir les ecouteurs `skip` de l'effet ci-dessus. */}
     </div>
   );
 }

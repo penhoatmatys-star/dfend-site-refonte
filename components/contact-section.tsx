@@ -30,7 +30,7 @@ export default function ContactSection({ id = "contact" }: { id?: string }) {
   return (
     <section
       id={id}
-      className="on-night relative isolate scroll-mt-24 overflow-hidden bg-night py-[clamp(64px,9vw,104px)] text-chalk"
+      className="on-night relative isolate scroll-mt-24 overflow-hidden bg-night pt-[clamp(64px,9vw,104px)] pb-32 text-chalk md:pb-[clamp(64px,9vw,104px)]"
     >
       {/* Le champ est tenu a 55 % : les champs du formulaire doivent rester la
           chose la plus claire de la section. */}
