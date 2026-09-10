@@ -86,7 +86,7 @@ export default function FortivaBlock() {
           />
 
           <p className="lede mt-s4">
-            Identify, mitigate and optimize your exposure with our own tool.
+            Mitigate and optimize your exposure with our own tool.
           </p>
 
           <a
