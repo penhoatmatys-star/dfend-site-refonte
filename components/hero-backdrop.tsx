@@ -1,27 +1,25 @@
 "use client";
 
-/* Le fond du heros : une boucle de 9,6 secondes en va-et-vient, derriere le titre.
+/* Le fond du heros : un plan genere sur Higgsfield, en boucle, derriere le titre.
  *
- * Le client a fourni `0910(3).mp4` le 2026-09-10 et a demande de le poser en
- * fond du premier ecran, en toute connaissance de ce qu'il porte : c'est un
- * extrait de son film promo, avec un visage et le filigrane « dfend group »
- * au centre. C'est un ecart explicite a la regle du projet sur les visuels de
- * synthese (une matiere, jamais un visage) : l'ecart est celui du client,
- * consigne ici.
+ * Le client a d'abord fait poser ici deux extraits de son film promo
+ * (`0910.mp4` puis `0910(3).mp4`, plan d'atrium avec visage et filigrane), et
+ * les a rejetes le 2026-09-10 au profit du plan genere pour la section « off
+ * the field » : un parent qui porte un enfant sur ses epaules dans un champ,
+ * de dos, en silhouette. Aucun visage — la regle du projet sur les visuels de
+ * synthese tient. Le meme plan sert donc le heros et la section plus bas.
  *
- * Seul le plan d'ouverture est retenu — l'atrium, en plein cadre — parce que
- * la suite du film est en portrait avec des bandes noires et un aplat lime
- * grave dessus, illisible en fond pleine largeur. Ce plan est un lent
- * travelling avant : recolle bout a bout il « sautait en arriere » toutes les
- * quatre secondes. Il est donc joue en va-et-vient, avant puis a l'envers, et
- * revient exactement sur sa premiere image. Aucun fondu, aucun raccord.
+ * Le clip source est en portrait ; il est recadre 720x640 autour de la
+ * silhouette (ciel au-dessus, herbe en dessous) avant d'etre monte en 1280 de
+ * large. La queue est recollee sur la tete par un fondu de 0,6 s : la boucle
+ * de 3,4 s est franche, sans raccord visible.
  *
  * Deux raisons de ne pas servir la video a tout le monde :
  * — sous `prefers-reduced-motion`, on s'arrete sur l'affiche ;
  * — le rendu serveur sert l'affiche, donc le premier rendu client sert la
  *   meme chose et la reconciliation ne trouve rien a redire.
  *
- * Le telephone recoit la copie `header-960` (160 Ko), `preload="metadata"` :
+ * Le telephone recoit la copie `header-960` (185 Ko), `preload="metadata"` :
  * le corps n'arrive qu'au moment de lire, et `poster` tient l'ecran jusque-la.
  *
  * Le voile est un aplat, pas un degrade : le projet n'en a aucun, et surtout
@@ -33,7 +31,7 @@ import { useEffect, useState } from "react";
 
 const POSTER = "/img/header-poster-1280.webp";
 const ALT =
-  "A footballer sitting on the ground lacing their boots in a leafy courtyard, black and white";
+  "A parent carrying a child on their shoulders through a wide grass field at dusk, seen from behind in silhouette, black and white";
 
 export default function HeroBackdrop() {
   const [motion, setMotion] = useState(false);
@@ -81,13 +79,9 @@ export default function HeroBackdrop() {
       )}
       {/* Un seul voile d'encre, plat et sur toute la largeur, meme valeur
           partout. Pas de degrade : le projet n'en a aucun, et un aplat se
-          mesure. Il est calibre sur le point le plus clair de l'atrium — les
-          trouees de ciel en haut a droite. La passe 6 le verifie a cinq
-          instants de la boucle.
-          Il a ete pousse a 92 % sur mobile un moment, pour couvrir le
-          filigrane « dfend group » derriere la lede ; le client a juge la
-          video trop eteinte et l'a fait revenir a 75 % partout. Le filigrane
-          reste donc faiblement lisible sur petit ecran, c'est assume. */}
+          mesure. Il est calibre sur le point le plus clair du plan — le ciel
+          de fin de journee au-dessus de la ligne d'horizon. La passe 6 le
+          verifie a cinq instants de la boucle. */}
       <div className="absolute inset-0 bg-ink/75" />
     </div>
   );
