@@ -36,10 +36,10 @@ export const SITE = {
   instagram: "https://www.instagram.com/dfend_group_/",
   linkedin: "https://www.linkedin.com/company/107192867/",
   // Le seul element differenciant du site actuel : l'outil maison.
-  // L'URL a change le 2026-08-28 : le site frere dfendinsurance.com pointe
-  // desormais sur le formulaire europeen en ligne et non plus sur l'apercu
-  // `dfend-form-preview.html`. Meme outil, meme client, une seule adresse.
-  fortiva: "https://fortiva-pro-production.up.railway.app/form/europe",
+  // Ramene le 2026-09-11 sur `dfend-form-preview.html` a la demande du
+  // client en chat, en remplacement du formulaire europeen en ligne pose
+  // le 2026-08-28.
+  fortiva: "https://fortiva-pro-production.up.railway.app/dfend-form-preview.html",
   parent: "Camponovo & Partners Group",
 } as const;
 
