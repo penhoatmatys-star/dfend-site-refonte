@@ -580,6 +580,55 @@ async function passContrastOnPhoto(browser) {
     }
   }
 
+  /* Le meme heros, sur un telephone.
+   *
+   * Depuis le 2026-09-10 la video tourne aussi sous 640 px, et ce n'est pas la
+   * meme : `stade-mobile` est un recadrage 3:4 du montage, donc le cadre n'est
+   * plus celui qu'on vient de mesurer. Le pylone du plan 3 y occupe le centre
+   * au lieu du tiers droit, c'est-a-dire la ou tombe le titre. Mesurer le
+   * format bureau et en deduire le telephone serait une supposition. */
+  const phone = await open(browser, { width: 375, height: 812, isMobile: true });
+  await phone.goto(BASE + "/", { waitUntil: "networkidle2" });
+  await phone.evaluate(COLOR_TOOLS);
+  await wait(1600);
+
+  const served = await phone.evaluate(() => {
+    const v = document.querySelector("main section video");
+    return v ? v.currentSrc.split("/").pop() : null;
+  });
+  check(
+    served === "stade-mobile.mp4",
+    "375px — c'est bien la copie telephone qui est servie",
+    String(served),
+  );
+
+  for (const at of [0, 4, 8, 12, 16]) {
+    await phone.evaluate((t) => {
+      const v = document.querySelector("main section video");
+      if (!v) return;
+      v.pause();
+      v.currentTime = t;
+    }, at);
+    await wait(400);
+
+    for (const [name, selector] of targets) {
+      const handle = await phone.$(selector);
+      if (!handle) {
+        check(false, `375px t=${at}s — ${name} introuvable`, selector);
+        continue;
+      }
+      const r = await worstRatioBehind(phone, handle);
+      await handle.dispose();
+      if (!r) continue;
+      check(
+        r.worst >= 4.5,
+        `375px t=${at}s — ${name} tient 4.5:1 sur l'image`,
+        `${r.worst.toFixed(2)}:1, pire pixel de fond ${r.culprit}/255`,
+      );
+    }
+  }
+  await phone.close();
+
   /* Le bloc Fortiva est le second texte du site pose sur une video. Le plan
    * est celui d'une main qui signe, fourni par le client : ses zones claires
    * sont le papier et la main, et c'est sur elles que le voile a ete calibre.
