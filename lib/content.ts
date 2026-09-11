@@ -29,8 +29,12 @@ export const SITE = {
    * `wa.me` veut le numero sans « + », sans espace et sans zero national. */
   phone: "+41 78 732 93 40",
   whatsapp: "https://wa.me/41787329340",
-  instagram: "https://www.instagram.com/dfend.swiss/",
-  linkedin: "https://ch.linkedin.com/company/dfend-swiss",
+  // Comptes donnes par le client en chat le 2026-09-11, en remplacement des
+  // deux precedents (releves sur l'ancien site, todo.md). Le lien LinkedIn
+  // fourni etait une page de recherche portant heroEntityKey=urn:li:organization:107192867 ;
+  // ramene ici a l'URL de page d'entreprise correspondante.
+  instagram: "https://www.instagram.com/dfend_group_/",
+  linkedin: "https://www.linkedin.com/company/107192867/",
   // Le seul element differenciant du site actuel : l'outil maison.
   // L'URL a change le 2026-08-28 : le site frere dfendinsurance.com pointe
   // desormais sur le formulaire europeen en ligne et non plus sur l'apercu

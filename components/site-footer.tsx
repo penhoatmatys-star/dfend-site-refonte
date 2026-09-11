@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import LocationMap from "@/components/ui/expand-map";
+import InstagramIcon from "@/components/ui/instagram-icon";
+import LinkedinIcon from "@/components/ui/linkedin-icon";
 import {
   ADDRESS,
   ECOSYSTEM,
@@ -103,14 +105,20 @@ export default function SiteFooter() {
 
             <ul className="mt-auto flex list-none flex-wrap gap-s4 p-0 pt-s4">
               {[
-                { href: "/download", label: "downloads", external: false },
-                { href: "/legal", label: "legal notice", external: false },
-                { href: SITE.instagram, label: "instagram", external: true },
-                { href: SITE.linkedin, label: "linkedin", external: true },
+                { href: "/download", label: "downloads", external: false, Icon: null },
+                { href: "/legal", label: "legal notice", external: false, Icon: null },
+                { href: SITE.instagram, label: "instagram", external: true, Icon: InstagramIcon },
+                { href: SITE.linkedin, label: "linkedin", external: true, Icon: LinkedinIcon },
               ].map((link) => (
                 <li key={link.label}>
                   {link.external ? (
-                    <a href={link.href} rel="noopener noreferrer external" className={LINK}>
+                    <a
+                      href={link.href}
+                      rel="noopener noreferrer external"
+                      aria-label={`${link.label}, opens in a new tab`}
+                      className={`${LINK} gap-2`}
+                    >
+                      {link.Icon ? <link.Icon size={16} /> : null}
                       {link.label}
                     </a>
                   ) : (
