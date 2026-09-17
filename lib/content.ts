@@ -103,20 +103,6 @@ export const ECOSYSTEM = {
   ],
 } as const;
 
-/* Un partenaire externe, pas un membre du groupe : Margos & Partners
- * accompagne les clients dfend qui envisagent de domicilier leur activite a
- * Malte. Le texte est celui donne par le client le 2026-09-15, rien n'est
- * reformule. Le logo est sombre sur transparent, comme la plaque Camponovo
- * plus haut il lui faut donc son propre aplat blanc sur le fond nuit. */
-export const MALTA_PARTNER = {
-  text: "Planning to start a business in Malta",
-  name: "Margos & Partners",
-  href: "https://margospartners.com/dfend.swiss",
-  src: "/img/logo-margos-partners.svg",
-  width: 255,
-  height: 23,
-} as const;
-
 /* Le site tient sur une seule page. Les onglets ne sont pas des routes, ils
  * descendent a la section qui porte leur matiere ; le mot-symbole en haut a
  * gauche est le seul chemin vers le haut de page, et `/download` la seule

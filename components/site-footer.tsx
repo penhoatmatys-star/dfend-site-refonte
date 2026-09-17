@@ -6,7 +6,6 @@ import LinkedinIcon from "@/components/ui/linkedin-icon";
 import {
   ADDRESS,
   ECOSYSTEM,
-  MALTA_PARTNER,
   MAP_EMBED,
   MAP_LINK,
   OFFICES,
@@ -179,29 +178,6 @@ export default function SiteFooter() {
               ))}
             </ul>
           </div>
-        </div>
-
-        {/* Un partenaire externe, pas un etage de l'ecosysteme : sa propre
-            rangee, sous sa propre bordure, pour ne pas se lire comme une
-            troisieme enseigne du groupe. */}
-        <div className="mt-s5 border-t border-rule-chalk pt-s5">
-          <a
-            href={MALTA_PARTNER.href}
-            rel="noopener noreferrer external"
-            aria-label={`${MALTA_PARTNER.text}, ${MALTA_PARTNER.name}, opens in a new tab`}
-            className="inline-flex flex-col items-start gap-s3 transition-opacity duration-200 hover:opacity-80 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-lime"
-          >
-            <span className="label text-lime">{MALTA_PARTNER.text}</span>
-            <span className="inline-flex h-10 items-center bg-chalk px-4">
-              <Image
-                src={MALTA_PARTNER.src}
-                alt={MALTA_PARTNER.name}
-                width={MALTA_PARTNER.width}
-                height={MALTA_PARTNER.height}
-                className="h-4 w-auto"
-              />
-            </span>
-          </a>
         </div>
 
         <div className="mt-s5 flex flex-wrap justify-between gap-s2 border-t border-rule-chalk pt-s3 text-chalk-soft">
